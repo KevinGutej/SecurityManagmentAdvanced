@@ -9,14 +9,14 @@ string getString(string generatedLetter1, string generatedLetter2) {
     int index2 = 0;
     string buffer;
     for(i =0; i < 6; i++) {
-        while(generatedLetter1[index1] != '\n') {
+        while(index1 < generatedLetter1.size() && generatedLetter1[index1] != '\n') {
             output = output + generatedLetter1[index1];
             index1++;
         }
         output = output + "   ";
         index1++;
 
-        while(generatedLetter2[index2] != '\n') {
+        while(index2 < generatedLetter2.size() && generatedLetter2[index2] != '\n') {
             output = output + generatedLetter2[index2];
             index2++;
         }
