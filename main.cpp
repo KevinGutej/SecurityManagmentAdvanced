@@ -20,7 +20,7 @@ string getString(string generatedLetter1, string generatedLetter2) {
             output = output + generatedLetter2[index2];
             index2++;
         }
-        output = output + "   ";
+        output = output + '\n';
         index2++;
     }
     return output;
@@ -32,27 +32,53 @@ string generateLetter(char symbol) {
 
     case 'A':
         return
-            "     /\\\n"
-            "    /  \\\n"
-            "   /    \\\n"
-            "  /------\\\n"
-            " /        \\\n"
+            "     /\\     \n"
+            "    /  \\    \n"
+            "   /    \\   \n"
+            "  /------\\  \n"
+            " /        \\ \n"
             "/          \\\n";
     case 'B':
         return
-            "|^^^\\\n"
+            "|^^^\\ \n"
             "|    |\n"
-            "|___/\n"
-            "|   \\\n"
+            "|___/ \n"
+            "|   \\ \n"
             "|    |\n"
-            "|___/\n";
+            "|___/ \n";
+    case 'C':
+        return
+            "  _____  \n"
+            " /       \n"
+            "/        \n"
+            "|        \n"
+            "\\        \n"
+            " \\_____  \n";
+    case 'D':
+        return
+            " _____   \n"
+            "|     \\  \n"
+            "|      \\ \n"
+            "|      / \n"
+            "|      / \n"
+            "|_____/  \n";
+    case 'E':
+        return
+            " ______ \n"
+            "|       \n"
+            "|______ \n"
+            "|       \n"
+            "|______ \n";
+
     }
 }
 
 int main()
 {
-    cout << generateLetter('A') << endl;
-    cout << generateLetter('B') << endl;
+    string generatedLetter1 = generateLetter('C');
+    string generatedLetter2 = generateLetter('D');
+    string output = getString(generatedLetter1, generatedLetter2);
+    cout << output << endl;
 
     return 0;
 }
