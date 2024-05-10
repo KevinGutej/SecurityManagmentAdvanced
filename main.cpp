@@ -1,4 +1,6 @@
 #include <iostream>
+#include <time.h>
+#include <stdlib.h>
 
 using namespace std;
 
@@ -25,7 +27,6 @@ string getString(string generatedLetter1, string generatedLetter2) {
     }
     return output;
 }
-
 
 string generateLetter(char symbol) {
     switch(symbol) {
@@ -66,19 +67,42 @@ string generateLetter(char symbol) {
         return
             " ______ \n"
             "|       \n"
-            "|______ \n"
+            "|       \n"
+            "|------ \n"
             "|       \n"
             "|______ \n";
+
 
     }
 }
 
+string generateUnblurredCode(string code) {
+    int i;
+    string alreadyConnected = generateLetter(code[0]);
+    string newLetter;
+    for(i=1; i < code.size(); i++) {
+        newLetter = generateLetter(code[i]);
+        alreadyConnected = getString(alreadyConnected, newLetter);
+    }
+    return alreadyConnected;
+}
+
+string randomizeCode(int minLength = 4, int maxLength = 8) {
+    string code;
+    int length = rand() % (maxLength - minLength + 1) + minLength;
+    for(int i = 0; i < length; i++) {
+        char letter = rand() % (69 - 65 + 1) + 65;
+        code = code + letter;
+    }
+    return code;
+}
+
+
 int main()
 {
-    string generatedLetter1 = generateLetter('C');
-    string generatedLetter2 = generateLetter('D');
-    string output = getString(generatedLetter1, generatedLetter2);
+    srand(time(NULL));
+    string code = randomizeCode();
+    string output = generateUnblurredCode(code);
     cout << output << endl;
-
     return 0;
 }
