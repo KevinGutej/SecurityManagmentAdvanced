@@ -57,7 +57,7 @@ string generateLetter(char symbol) {
             " \\_____  \n";
     case 'D':
         return
-            " _____   \n"
+            "|^^^^\\   \n"
             "|     \\  \n"
             "|      \\ \n"
             "|      / \n"
@@ -72,16 +72,91 @@ string generateLetter(char symbol) {
             "|       \n"
             "|______ \n";
 
+    case 'F':
+        return
+            " ______ \n"
+            "|       \n"
+            "|       \n"
+            "|------ \n"
+            "|       \n"
+            "|       \n";
+
+    case 'G':
+        return
+            " ______   \n"
+            "|         \n"
+            "|         \n"
+            "|   ----| \n"
+            "|       | \n"
+            "|_______| \n";
+
+
+    case 'H':
+        return
+            "|       | \n"
+            "|       | \n"
+            "|       | \n"
+            "|-------| \n"
+            "|       | \n"
+            "|       | \n";
+
+
+    case 'I':
+        return
+            "  ____  \n"
+            "   ||   \n"
+            "   ||   \n"
+            "   ||   \n"
+            "   ||   \n"
+            "  ----  \n";
+    case 'J':
+        return
+            "       | \n"
+            "       | \n"
+            "       | \n"
+            "       | \n"
+            "       / \n"
+            " _____/  \n";
+    case 'K':
+        return
+            "|      /\n"
+            "|    /  \n"
+            "|  /    \n"
+            "|  \\    \n"
+            "|    \\  \n"
+            "|      \\ \n";
+    case 'L':
+        return
+            "|       \n"
+            "|       \n"
+            "|       \n"
+            "|       \n"
+            "|       \n"
+            "|______ \n";
+
+    default:
+        return "Error";
 
     }
 }
 
-string generateUnblurredCode(string code) {
+string introduceNoise(string generatedLetter) {
+    int index;
+    for(int i = 0; i < 4; i++) {
+        do {
+            index = rand() % (generatedLetter.size());
+        }while(generatedLetter[index] == '\n');
+        generatedLetter[index] = 'X';
+    }
+    return generatedLetter;
+}
+
+string generateBlurredCode(string code) {
     int i;
-    string alreadyConnected = generateLetter(code[0]);
+    string alreadyConnected = introduceNoise(generateLetter(code[0]));
     string newLetter;
     for(i=1; i < code.size(); i++) {
-        newLetter = generateLetter(code[i]);
+        newLetter = introduceNoise(generateLetter(code[i]));
         alreadyConnected = getString(alreadyConnected, newLetter);
     }
     return alreadyConnected;
@@ -91,18 +166,19 @@ string randomizeCode(int minLength = 4, int maxLength = 8) {
     string code;
     int length = rand() % (maxLength - minLength + 1) + minLength;
     for(int i = 0; i < length; i++) {
-        char letter = rand() % (69 - 65 + 1) + 65;
+        char letter = rand() % (76 - 65 + 1) + 65;
         code = code + letter;
     }
     return code;
 }
 
 
+
 int main()
 {
     srand(time(NULL));
     string code = randomizeCode();
-    string output = generateUnblurredCode(code);
+    string output = generateBlurredCode(code);
     cout << output << endl;
     return 0;
 }
