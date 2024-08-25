@@ -4,7 +4,7 @@
 
 using namespace std;
 
-string getString(string generatedLetter1, string generatedLetter2) {
+string joinLetters(string generatedLetter1, string generatedLetter2) {
     string output;
     int i;
     int index1 = 0;
@@ -28,8 +28,8 @@ string getString(string generatedLetter1, string generatedLetter2) {
     return output;
 }
 
-string generateLetter(char symbol) {
-    switch(symbol) {
+string generateSymbol(char letter) {
+    switch(letter) {
 
     case 'A':
         return
@@ -140,39 +140,52 @@ string generateLetter(char symbol) {
     }
 }
 
-string introduceNoise(string generatedLetter) {
+string introduceNoise(string generatedSymbol) {
     int index;
     for(int i = 0; i < 4; i++) {
         do {
-            index = rand() % (generatedLetter.size());
-        }while(generatedLetter[index] == '\n');
-        generatedLetter[index] = 'X';
+            index = rand() % (generatedSymbol.size());
+        }while(generatedSymbol[index] == '\n');
+        generatedSymbol[index] = 'X';
     }
-    return generatedLetter;
+    return generatedSymbol;
 }
 
 string generateBlurredCode(string code) {
-    int i;
-    string alreadyConnected = introduceNoise(generateLetter(code[0]));
+    string alreadyConnected = introduceNoise(generateSymbol(code[0]));
     string newLetter;
+    int i;
     for(i=1; i < code.size(); i++) {
-        newLetter = introduceNoise(generateLetter(code[i]));
-        alreadyConnected = getString(alreadyConnected, newLetter);
+        newLetter = introduceNoise(generateSymbol(code[i]));
+        alreadyConnected = joinLetters(alreadyConnected, newLetter);
     }
     return alreadyConnected;
 }
 
 string randomizeCode(int minLength = 4, int maxLength = 8) {
     string code;
+    const char lastLetterAvailable = 'L';
     int length = rand() % (maxLength - minLength + 1) + minLength;
     for(int i = 0; i < length; i++) {
-        char letter = rand() % (76 - 65 + 1) + 65;
+        char letter = rand() % (lastLetterAvailable - 'A' + 1) + 'A';
         code = code + letter;
     }
     return code;
 }
 
-
+bool confirmHumainity(string correctCode) {
+    string userCode;
+    const int changingLowerCaseToUpperCase = 32;
+    cout << "Please enter the code above: ";
+    cin >> userCode;
+    int i;
+    for(i =0; i < userCode.length(); i++) {
+        if(userCode[i] <= 'z' && userCode[i] >= 'a') {
+            userCode[i] = userCode[i] - changingLowerCaseToUpperCase;
+        }
+    }
+    return userCode == correctCode;
+}
 
 int main()
 {
@@ -180,5 +193,10 @@ int main()
     string code = randomizeCode();
     string output = generateBlurredCode(code);
     cout << output << endl;
+    if(confirmHumainity(code)) {
+        cout << "Access granted" << endl;
+    }else {
+        cout << "Access denied" << endl;
+    }
     return 0;
 }
